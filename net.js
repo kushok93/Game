@@ -5,9 +5,10 @@
 // где открываются сайты. Брокер выбирается по первой букве кода комнаты.
 
 const MQTT_BROKERS = [
-  "wss://broker.hivemq.com:8884/mqtt",
   "wss://test.mosquitto.org:8081/mqtt",
+  "wss://broker.hivemq.com:8884/mqtt",
 ];
+const CONNECT_ATTEMPTS = 3;
 const TOPIC_PREFIX = "kushok93-battleship/v2/";
 const CODE_ALPHABET = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
 const JOIN_TIMEOUT = 8000;
@@ -39,13 +40,14 @@ class Net {
   }
 
   /** Подключиться к брокеру с last will «bye» в сторону соперника. */
-  connectBroker(url, willTopic, onReady, onFail) {
+  connectBroker(url, willTopic, onReady, onFail, attempt = 1) {
+    if (this.closed) return;
     let ready = false;
     const client = mqtt.connect(url, {
       clientId: "bs-" + this.id,
       clean: true,
       keepalive: 10,
-      connectTimeout: 6000,
+      connectTimeout: 8000,
       reconnectPeriod: 0,
       will: { topic: willTopic, payload: JSON.stringify({ from: this.id, c: "bye" }), qos: 1 },
     });
@@ -69,7 +71,9 @@ class Net {
         if (failed) return;
         failed = true;
         client.end(true);
-        onFail();
+        // публичные брокеры иногда не отвечают на отдельное подключение — пробуем ещё
+        if (attempt < CONNECT_ATTEMPTS) this.connectBroker(url, willTopic, onReady, onFail, attempt + 1);
+        else onFail();
       } else {
         this.lost();
       }

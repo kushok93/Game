@@ -4,7 +4,7 @@ const SIZE = 10;
 const FLEET = [4, 3, 3, 2, 2, 2, 1, 1, 1, 1];
 const LETTERS = "АБВГДЕЖЗИК";
 const AI_DELAY = 600;
-const CONNECT_TIMEOUT = 20000;
+const CONNECT_TIMEOUT = 60000;
 
 const EMPTY = 0, SHIP = 1, MISS = 2, HIT = 3, SUNK = 4;
 
