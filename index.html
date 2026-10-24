@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Морской бой</title>
+  <meta name="description" content="Морской бой в браузере: против компьютера или онлайн с другом">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="app">
+    <header class="header">
+      <h1>Морской бой</h1>
+      <span id="subtitle" class="subtitle">против компьютера или онлайн с другом</span>
+    </header>
+
+    <div id="status" class="status info"></div>
+
+    <section id="menu" class="panel">
+      <button class="btn primary big" id="btn-ai">Играть против компьютера</button>
+      <button class="btn secondary big" id="btn-host">Создать игру с другом</button>
+      <div class="divider"><span>или подключиться по коду</span></div>
+      <form class="row" id="join-form">
+        <input id="join-code" maxlength="6" placeholder="КОД" autocomplete="off" spellcheck="false">
+        <button class="btn secondary" id="btn-join" type="submit">Подключиться</button>
+      </form>
+    </section>
+
+    <section id="lobby" class="panel" hidden>
+      <p class="label">Код комнаты</p>
+      <div id="room-code" class="room-code"></div>
+      <p class="label">Отправьте другу ссылку — игра начнётся, как только он её откроет</p>
+      <div class="row">
+        <input id="room-link" readonly>
+        <button class="btn primary" id="btn-copy">Скопировать</button>
+      </div>
+      <button class="btn secondary" id="btn-cancel">Отмена</button>
+    </section>
+
+    <section id="game" hidden>
+      <div class="boards">
+        <div class="card">
+          <div class="card-head">
+            <span class="card-title">Ваш флот</span>
+            <span id="p-counter" class="counter"></span>
+          </div>
+          <canvas id="p-canvas"></canvas>
+          <canvas id="p-tracker" class="tracker"></canvas>
+        </div>
+        <div class="card">
+          <div class="card-head">
+            <span id="e-title" class="card-title">Противник</span>
+            <span id="e-counter" class="counter"></span>
+          </div>
+          <canvas id="e-canvas"></canvas>
+          <canvas id="e-tracker" class="tracker"></canvas>
+        </div>
+      </div>
+      <div class="controls">
+        <button class="btn secondary" id="btn-rotate">Повернуть</button>
+        <button class="btn secondary" id="btn-random">Случайно</button>
+        <button class="btn secondary" id="btn-clear">Очистить</button>
+        <button class="btn primary" id="btn-start">Начать игру</button>
+        <button class="btn primary" id="btn-again">Играть снова</button>
+        <button class="btn secondary" id="btn-new">Новая игра</button>
+        <button class="btn secondary" id="btn-menu">В меню</button>
+      </div>
+      <p id="hint" class="hint"></p>
+    </section>
+  </main>
+
+  <script src="https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js"></script>
+  <script src="net.js"></script>
+  <script src="game.js"></script>
+</body>
+</html>

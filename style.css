@@ -1,0 +1,182 @@
+:root {
+  color-scheme: dark;
+  --bg: #0b1220;
+  --card: #131c2e;
+  --border: #1f2a40;
+  --text: #e5edf7;
+  --muted: #7c8aa5;
+  --accent: #38bdf8;
+  --accent-hover: #7dd3fc;
+  --on-accent: #06202e;
+  --btn: #22304a;
+  --btn-hover: #2d3e5e;
+  --hit: #fb923c;
+  --ok: #22c55e;
+  --bad: #ef4444;
+  --font: "Segoe UI", system-ui, -apple-system, Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+
+html, body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font);
+}
+
+body { padding: 22px 16px 32px; }
+
+.app {
+  max-width: 880px;
+  margin: 0 auto;
+}
+
+.header {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 4px 14px;
+}
+
+h1 {
+  margin: 0;
+  font-size: 30px;
+  font-weight: 700;
+}
+
+.subtitle { color: var(--muted); font-size: 14px; }
+
+.status {
+  margin: 16px 0;
+  padding: 11px 16px;
+  border-radius: 10px;
+  text-align: center;
+  font-weight: 600;
+  font-size: 15px;
+  transition: background .2s, color .2s;
+}
+.status.info { background: var(--card); color: var(--text); }
+.status.turn { background: var(--accent); color: var(--on-accent); }
+.status.wait { background: var(--btn); color: var(--muted); }
+.status.hit  { background: var(--hit); color: #2a1205; }
+.status.win  { background: var(--ok); color: #052e14; }
+.status.lose { background: var(--bad); color: #fff; }
+
+.panel {
+  max-width: 420px;
+  margin: 28px auto 0;
+  padding: 24px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.btn {
+  border: 0;
+  border-radius: 12px;
+  padding: 10px 20px;
+  font: 600 14px var(--font);
+  cursor: pointer;
+  transition: background .15s, transform .05s;
+}
+.btn:active:not(:disabled) { transform: translateY(1px); }
+.btn.big { padding: 14px 20px; font-size: 15px; }
+.btn.primary { background: var(--accent); color: var(--on-accent); }
+.btn.primary:hover:not(:disabled) { background: var(--accent-hover); }
+.btn.secondary { background: var(--btn); color: var(--text); }
+.btn.secondary:hover:not(:disabled) { background: var(--btn-hover); }
+.btn:disabled { background: var(--border); color: var(--muted); cursor: default; }
+
+.divider {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--muted);
+  font-size: 13px;
+  margin: 6px 0 0;
+}
+.divider::before, .divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
+.row { display: flex; gap: 8px; }
+
+input {
+  flex: 1;
+  min-width: 0;
+  padding: 10px 14px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--text);
+  font: 600 15px var(--font);
+  outline: none;
+}
+input:focus { border-color: var(--accent); }
+#join-code { text-transform: uppercase; letter-spacing: 4px; text-align: center; }
+#room-link { font-weight: 400; font-size: 13px; }
+
+.label { margin: 0; color: var(--muted); font-size: 13px; text-align: center; }
+
+.room-code {
+  font-size: 40px;
+  font-weight: 700;
+  letter-spacing: 10px;
+  text-align: center;
+  color: var(--accent);
+  padding-left: 10px;
+}
+
+.boards {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 14px 16px;
+}
+
+.card-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 8px;
+}
+.card-title { font-weight: 600; font-size: 16px; }
+.counter { color: var(--muted); font-size: 13px; }
+
+canvas { display: block; touch-action: manipulation; }
+.tracker { margin-top: 6px; }
+
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.hint {
+  text-align: center;
+  color: var(--muted);
+  font-size: 13px;
+  margin: 12px 0 0;
+  min-height: 1em;
+}
+
+@media (max-width: 919px) {
+  .boards { flex-direction: column; align-items: center; }
+  h1 { font-size: 24px; }
+}
