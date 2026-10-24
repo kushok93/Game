@@ -566,7 +566,7 @@ class Game {
   }
 
   host() {
-    if (typeof Peer === "undefined") {
+    if (typeof mqtt === "undefined") {
       this.setStatus("Не удалось загрузить модуль онлайн-игры. Проверьте интернет", "lose");
       return;
     }
@@ -577,7 +577,7 @@ class Game {
   }
 
   join(code) {
-    if (typeof Peer === "undefined") {
+    if (typeof mqtt === "undefined") {
       this.showMenu("Не удалось загрузить модуль онлайн-игры. Проверьте интернет", "lose");
       return;
     }
@@ -590,7 +590,7 @@ class Game {
     clearTimeout(this.connectTimer);
     this.connectTimer = setTimeout(() => {
       if (this.phase === "lobby") {
-        this.showMenu("Не удалось соединиться с другом. Возможно, мешает сеть — попробуйте, чтобы игру создал другой игрок", "lose");
+        this.showMenu("Не удалось подключиться к игре. Проверьте интернет и попробуйте ещё раз", "lose");
       }
     }, CONNECT_TIMEOUT);
   }
