@@ -10,10 +10,35 @@
   --on-accent: #06202e;
   --btn: #22304a;
   --btn-hover: #2d3e5e;
-  --hit: #fb923c;
-  --ok: #22c55e;
-  --bad: #ef4444;
+  --input-bg: #0b1220;
+  --hit-bg: #fb923c;
+  --hit-fg: #2a1205;
+  --win-bg: #22c55e;
+  --win-fg: #052e14;
+  --lose-bg: #ef4444;
+  --lose-fg: #ffffff;
   --font: "Segoe UI", system-ui, -apple-system, Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+:root[data-theme="light"] {
+  color-scheme: light;
+  --bg: #eef3f9;
+  --card: #ffffff;
+  --border: #d8e1ec;
+  --text: #0f1b2d;
+  --muted: #5f6f86;
+  --accent: #0284c7;
+  --accent-hover: #0369a1;
+  --on-accent: #ffffff;
+  --btn: #e3eaf3;
+  --btn-hover: #d3deeb;
+  --input-bg: #f6f9fc;
+  --hit-bg: #fdba74;
+  --hit-fg: #431407;
+  --win-bg: #16a34a;
+  --win-fg: #ffffff;
+  --lose-bg: #dc2626;
+  --lose-fg: #ffffff;
 }
 
 * { box-sizing: border-box; }
@@ -35,9 +60,16 @@ body { padding: 22px 16px 32px; }
 
 .header {
   display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.title-group {
+  display: flex;
   align-items: baseline;
   flex-wrap: wrap;
   gap: 4px 14px;
+  min-width: 0;
 }
 
 h1 {
@@ -60,9 +92,29 @@ h1 {
 .status.info { background: var(--card); color: var(--text); }
 .status.turn { background: var(--accent); color: var(--on-accent); }
 .status.wait { background: var(--btn); color: var(--muted); }
-.status.hit  { background: var(--hit); color: #2a1205; }
-.status.win  { background: var(--ok); color: #052e14; }
-.status.lose { background: var(--bad); color: #fff; }
+.status.hit  { background: var(--hit-bg); color: var(--hit-fg); }
+.status.win  { background: var(--win-bg); color: var(--win-fg); }
+.status.lose { background: var(--lose-bg); color: var(--lose-fg); }
+
+.theme-toggle {
+  margin-left: auto;
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--card);
+  color: var(--text);
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  transition: background .15s;
+}
+.theme-toggle:hover { background: var(--btn); }
+.theme-toggle svg { width: 20px; height: 20px; }
+.theme-toggle .sun { display: none; }
+:root[data-theme="light"] .theme-toggle .sun { display: block; }
+:root[data-theme="light"] .theme-toggle .moon { display: none; }
 
 .panel {
   max-width: 420px;
@@ -115,7 +167,7 @@ input {
   padding: 10px 14px;
   border-radius: 12px;
   border: 1px solid var(--border);
-  background: var(--bg);
+  background: var(--input-bg);
   color: var(--text);
   font: 600 15px var(--font);
   outline: none;

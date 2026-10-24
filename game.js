@@ -8,27 +8,50 @@ const CONNECT_TIMEOUT = 60000;
 
 const EMPTY = 0, SHIP = 1, MISS = 2, HIT = 3, SUNK = 4;
 
-const T = {
-  card: "#131c2e",
-  border: "#1f2a40",
-  muted: "#7c8aa5",
-  accent: "#38bdf8",
-  water: "#16263f",
-  waterHover: "#24476f",
-  missBg: "#0f192a",
-  missDot: "#4b5d7a",
-  ship: "#5b6b85",
-  shipEdge: "#8193b2",
-  hitBg: "#3a1d24",
-  hit: "#fb923c",
-  sunk: "#7f1d1d",
-  sunkEdge: "#ef4444",
-  sunkMark: "#fecaca",
-  ok: "#22c55e",
-  okBg: "#14532d",
-  bad: "#ef4444",
-  badBg: "#5b1a1a",
+const THEMES = {
+  dark: {
+    border: "#1f2a40",
+    muted: "#7c8aa5",
+    accent: "#38bdf8",
+    water: "#16263f",
+    waterHover: "#24476f",
+    missBg: "#0f192a",
+    missDot: "#4b5d7a",
+    ship: "#5b6b85",
+    shipEdge: "#8193b2",
+    hitBg: "#3a1d24",
+    hit: "#fb923c",
+    sunk: "#7f1d1d",
+    sunkEdge: "#ef4444",
+    sunkMark: "#fecaca",
+    ok: "#22c55e",
+    okBg: "#14532d",
+    bad: "#ef4444",
+    badBg: "#5b1a1a",
+  },
+  light: {
+    border: "#cbd5e1",
+    muted: "#5f6f86",
+    accent: "#0284c7",
+    water: "#dcebfb",
+    waterHover: "#b6d6f7",
+    missBg: "#eef2f7",
+    missDot: "#94a3b8",
+    ship: "#64748b",
+    shipEdge: "#475569",
+    hitBg: "#ffe4cc",
+    hit: "#ea580c",
+    sunk: "#ef4444",
+    sunkEdge: "#b91c1c",
+    sunkMark: "#ffffff",
+    ok: "#16a34a",
+    okBg: "#d1fadf",
+    bad: "#dc2626",
+    badBg: "#fde2e2",
+  },
 };
+
+let T = THEMES[document.documentElement.dataset.theme] || THEMES.dark;
 
 const FONT = '"Segoe UI", system-ui, -apple-system, Roboto, sans-serif';
 
@@ -450,6 +473,20 @@ class Game {
   }
 
   bindEvents() {
+    $("btn-theme").onclick = () => {
+      const next = document.documentElement.dataset.theme === "light" ? "dark" : "light";
+      try {
+        localStorage.setItem("theme", next);
+      } catch {}
+      this.setTheme(next);
+    };
+    matchMedia("(prefers-color-scheme: light)").addEventListener("change", e => {
+      let saved = null;
+      try {
+        saved = localStorage.getItem("theme");
+      } catch {}
+      if (!saved) this.setTheme(e.matches ? "light" : "dark");
+    });
     $("btn-ai").onclick = () => this.startAI();
     $("btn-host").onclick = () => this.host();
     $("join-form").onsubmit = e => {
@@ -502,6 +539,12 @@ class Game {
     const cell = Math.max(22, Math.min(36, Math.floor((avail - margin - 2) / SIZE)));
     this.pView.resize(cell, margin);
     this.eView.resize(cell, margin);
+  }
+
+  setTheme(name) {
+    document.documentElement.dataset.theme = name;
+    T = THEMES[name];
+    if (this.phase !== "menu" && this.phase !== "lobby") this.redraw();
   }
 
   // ---------- экраны и статус ----------
